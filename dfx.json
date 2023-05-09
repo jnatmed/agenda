@@ -1,0 +1,29 @@
+{
+  "canisters": {
+    "agenda_backend": {
+      "main": "src/agenda_backend/main.mo",
+      "type": "motoko"
+    },
+    "agenda_frontend": {
+      "dependencies": [
+        "agenda_backend"
+      ],
+      "frontend": {
+        "entrypoint": "src/agenda_frontend/src/index.html"
+      },
+      "source": [
+        "src/agenda_frontend/assets",
+        "dist/agenda_frontend/"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
