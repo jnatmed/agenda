@@ -18,29 +18,41 @@ actor {
     complete : Bool;
   };
 
+  public type msj = {
+    msj : Text;
+    homework : Homework;
+  };
+
   let homeworkDiary = Buffer.Buffer<Homework>(2);
   let homeworkDiaryPending = Buffer.Buffer<Homework>(2);
   let homeworkDiarySearch = Buffer.Buffer<Homework>(2);
 
+  // # 1 agregar una tarea
   public func addHomework(homework : Homework) : async Nat {
     homeworkDiary.add(homework);
     return homeworkDiary.size() - 1;
   };
 
-  public query func getHomework(homeworkId : Nat) : async Result<Homework, Text> {
+  // # 2 obtener una tarea a partir de una posicion dentro de la lista de tareas
+  public query func getHomework(homeworkId : Nat) : async Result<msj, Text> {
+    // me fijo si esta vacio
     if (Buffer.isEmpty(homeworkDiary)) {
+      // devuelvo error
       return #err("Id invalido");
     } else {
-      if (homeworkId < homeworkDiary.size()) {
+      // sino verifico que el id requerido sea menor al tamaño del arreglo
+      // verifico tambien si es mayor o igual a cero.
+      if (homeworkId < homeworkDiary.size() and homeworkId >= 0) {
         let homework : Homework = homeworkDiary.get(homeworkId);
-        return #ok(homework);
+        return #ok({ msj = "It's all Ok !"; homework = homework });
       } else {
         return #err("Id invalido");
       };
-    }
+    };
 
   };
 
+  // # 3 actualizar una tarea
   public func updateHomework(homeworkId : Nat, homework : Homework) : async Result<(), Text> {
     if (Buffer.isEmpty(homeworkDiary)) {
       return #err("Id invalido");
